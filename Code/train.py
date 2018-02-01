@@ -31,16 +31,20 @@ train_Y = np_utils.to_categorical(train_Y["label"]).astype('int')
 train_dim = train_X.shape[1]
 no_classes = train_Y.shape[1]
 
-print(train_X)
-print(train_Y)
+# print(train_X)
+# print(train_Y)
 model = Sequential()
 
-model.add(Dense(units=128, input_dim=train_dim))
+model.add(Dense(units=500, input_dim=train_dim))
 model.add(Activation('relu'))
+model.add(Dropout(0.1))
+model.add(Dense(units=300))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
 model.add(Dense(no_classes))
 model.add(Activation("softmax"))
 
-model.compile(loss = 'categorical_crossentropy', optimizer = 'rmsprop', metrics=['accuracy'])
+model.compile(loss = 'categorical_crossentropy', optimizer = 'Adam', metrics=['accuracy'])
 fit = model.fit(train_X, train_Y, epochs=10, batch_size=16, validation_split=0.1,verbose=2 )
 
 plt.plot(fit.history['acc'])
